@@ -25,14 +25,14 @@
     "StartingExchangeRate": 100377152
   },
   "core": {
-    "AccountantWithRateProviders": "0x28634D0c5edC67CF2450E74deA49B90a4FF93dCE",
-    "BoringVault": "0x5401b8620E5FB570064CA9114fd1e135fd77D57c",
-    "DecoderAndSanitizer": "0x402d89D6c763E8e79b77Ac1424f28cbA80ac9caa",
-    "DelayedWithdraw": "0xDa75512350c03d0F914eF040237E9ABF45913E5a",
-    "Lens": "0x5232bc0F5999f8dA604c42E1748A13a170F94A1B",
-    "ManagerWithMerkleVerification": "0xcf38e37872748E3b66741A42560672A6cef75e9B",
-    "RolesAuthority": "0xF3E03eF7df97511a52f31ea7a22329619db2bdF4",
-    "TellerWithMultiAssetSupport": "0x2eA43384F1A98765257bc6Cb26c7131dEbdEB9B3"
+    "AccountantWithRateProviders": "0x9863675A23bad8F613a495BFF0C9b2Dc2698e74e",
+    "BoringVault": "0x1cb28c15F0fC5A13Ec63D35480C302c76aF32FFb",
+    "DecoderAndSanitizer": "0xa6133F83dBeB8920c4e4013aaD9726fbc3b9fc1e",
+    "DelayedWithdraw": "0x56Cc984ca263C0363CA1be6d3Fa152Ce224251Dd",
+    "Lens": "0x32cD7cD98c0DD0A992e40Dc3aB17E59271CA9761",
+    "ManagerWithMerkleVerification": "0xa2BF2DB5aB0edbeFb74b0B9eCA7a0a72d3154770",
+    "RolesAuthority": "0xBb8FeE8C7623F29f5e7971b3061228e45681044a",
+    "TellerWithMultiAssetSupport": "0x026a81A5EcbfD10F2bBd349ee1AD22758a236d1D"
   },
   "depositConfiguration": {
     "AllowPublicDeposits": true,

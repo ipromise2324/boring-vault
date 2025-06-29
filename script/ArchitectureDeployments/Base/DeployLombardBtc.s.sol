@@ -4,6 +4,7 @@ pragma solidity 0.8.21;
 import {DeployArcticArchitecture, ERC20, Deployer} from "script/ArchitectureDeployments/DeployArcticArchitecture.sol";
 import {AddressToBytes32Lib} from "src/helper/AddressToBytes32Lib.sol";
 import {BaseAddresses} from "test/resources/BaseAddresses.sol";
+import {Authority} from "@solmate/auth/Auth.sol";
 
 // Import Decoder and Sanitizer to deploy.
 import {LombardBtcDecoderAndSanitizer} from "src/base/DecodersAndSanitizers/LombardBtcDecoderAndSanitizer.sol";
@@ -18,10 +19,10 @@ contract DeployLombardBtcScript is DeployArcticArchitecture, BaseAddresses {
     uint256 public privateKey;
 
     // Deployment parameters
-    string public boringVaultName = "Lombard BTC Vault";
-    string public boringVaultSymbol = "LBTCv";
+    string public boringVaultName = "LeBron BTC Vault";
+    string public boringVaultSymbol = "LBBTCv";
     uint8 public boringVaultDecimals = 8;
-    address public owner = dev0Address;
+    address public owner = 0x4A7bCebEc5b0A02Ad51F858741a76cFA17fDe637;
 
     function setUp() external {
         privateKey = vm.envUint("ETHERFI_LIQUID_DEPLOYER");
@@ -37,12 +38,19 @@ contract DeployLombardBtcScript is DeployArcticArchitecture, BaseAddresses {
         configureDeployment.finishSetup = true;
         configureDeployment.setupTestUser = true;
         configureDeployment.saveDeploymentDetails = true;
-        configureDeployment.deployerAddress = deployerAddress;
+        configureDeployment.deployerAddress = owner;
         configureDeployment.balancerVault = balancerVault;
         configureDeployment.WETH = address(WETH);
 
+        vm.startBroadcast(privateKey);
+
+        // Save deployer.        
+        // Deploy a new Deployer contract first
+        Deployer newDeployer = new Deployer(owner, Authority(address(0)));
+        configureDeployment.deployerAddress = address(newDeployer);
+
         // Save deployer.
-        deployer = Deployer(configureDeployment.deployerAddress);
+        deployer = newDeployer;
 
         // Define names to determine where contracts are deployed.
         names.rolesAuthority = LombardBtcRolesAuthorityName;
@@ -90,8 +98,6 @@ contract DeployLombardBtcScript is DeployArcticArchitecture, BaseAddresses {
         uint64 shareLockPeriod = 1 days;
         address delayedWithdrawFeeAddress = liquidPayoutAddress;
 
-        vm.startBroadcast(privateKey);
-
         _deploy(
             "Base/LombardBtcDeployment.json",
             owner,
@@ -104,7 +110,7 @@ contract DeployLombardBtcScript is DeployArcticArchitecture, BaseAddresses {
             allowPublicDeposits,
             allowPublicWithdraws,
             shareLockPeriod,
-            dev1Address
+            owner
         );
 
         vm.stopBroadcast();
