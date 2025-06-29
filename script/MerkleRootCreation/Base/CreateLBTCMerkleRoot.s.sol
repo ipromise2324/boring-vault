@@ -38,55 +38,55 @@ contract CreateLBTCMerkleRootScript is Script, MerkleTreeHelper {
         setAddress(false, base, "accountantAddress", accountantAddress);
         setAddress(false, base, "rawDataDecoderAndSanitizer", rawDataDecoderAndSanitizer);
 
-        ManageLeaf[] memory leafs = new ManageLeaf[](128);
+        ManageLeaf[] memory leafs = new ManageLeaf[](2);
 
-        // ========================== UniswapV3 ==========================
-        address[] memory token0 = new address[](3);
-        token0[0] = getAddress(sourceChain, "cbBTC");
-        token0[1] = getAddress(sourceChain, "cbBTC");
-        token0[2] = getAddress(sourceChain, "LBTC");
+        // // ========================== UniswapV3 ==========================
+        // address[] memory token0 = new address[](3);
+        // token0[0] = getAddress(sourceChain, "cbBTC");
+        // token0[1] = getAddress(sourceChain, "cbBTC");
+        // token0[2] = getAddress(sourceChain, "LBTC");
 
-        address[] memory token1 = new address[](3);
-        token1[0] = getAddress(sourceChain, "LBTC");
-        token1[1] = getAddress(sourceChain, "WBTC");
-        token1[2] = getAddress(sourceChain, "WBTC");
+        // address[] memory token1 = new address[](3);
+        // token1[0] = getAddress(sourceChain, "LBTC");
+        // token1[1] = getAddress(sourceChain, "WBTC");
+        // token1[2] = getAddress(sourceChain, "WBTC");
 
-        _addUniswapV3Leafs(leafs, token0, token1);
+        // _addUniswapV3Leafs(leafs, token0, token1);
 
-        // ========================== 1inch ==========================
-        address[] memory assets = new address[](4);
-        SwapKind[] memory kind = new SwapKind[](4);
-        assets[0] = getAddress(sourceChain, "cbBTC");
-        kind[0] = SwapKind.BuyAndSell;
-        assets[1] = getAddress(sourceChain, "LBTC");
-        kind[1] = SwapKind.BuyAndSell;
-        assets[2] = getAddress(sourceChain, "WBTC");
-        kind[2] = SwapKind.BuyAndSell;
-        assets[3] = getAddress(sourceChain, "AERO");
-        kind[3] = SwapKind.Sell;
-        //assets[3] = getAddress(sourceChain, "PENDLE");
-        //kind[3] = SwapKind.Sell;
-        _addLeafsFor1InchGeneralSwapping(leafs, assets, kind);
+        // // ========================== 1inch ==========================
+        // address[] memory assets = new address[](4);
+        // SwapKind[] memory kind = new SwapKind[](4);
+        // assets[0] = getAddress(sourceChain, "cbBTC");
+        // kind[0] = SwapKind.BuyAndSell;
+        // assets[1] = getAddress(sourceChain, "LBTC");
+        // kind[1] = SwapKind.BuyAndSell;
+        // assets[2] = getAddress(sourceChain, "WBTC");
+        // kind[2] = SwapKind.BuyAndSell;
+        // assets[3] = getAddress(sourceChain, "AERO");
+        // kind[3] = SwapKind.Sell;
+        // //assets[3] = getAddress(sourceChain, "PENDLE");
+        // //kind[3] = SwapKind.Sell;
+        // _addLeafsFor1InchGeneralSwapping(leafs, assets, kind);
 
-        // ========================== Pendle ==========================
-        _addPendleMarketLeafs(leafs, getAddress(sourceChain, "pendle_LBTC_market_05_29_25"), true);
+        // // ========================== Pendle ==========================
+        // _addPendleMarketLeafs(leafs, getAddress(sourceChain, "pendle_LBTC_market_05_29_25"), true);
 
         // ========================== Morpho ==========================
         _addERC4626Leafs(leafs, ERC4626(getAddress(sourceChain, "gauntletCbBTCcore")));
 
-        // ========================= Aerodrome ========================
-        setAddress(true, sourceChain, "rawDataDecoderAndSanitizer", aerodromeDecoderAndSanitizer);
-        address[] memory _token0 = new address[](1);
-        _token0[0] = getAddress(sourceChain, "LBTC");
-        address[] memory _token1 = new address[](1);
-        _token1[0] = getAddress(sourceChain, "cbBTC");
+        // // ========================= Aerodrome ========================
+        // setAddress(true, sourceChain, "rawDataDecoderAndSanitizer", aerodromeDecoderAndSanitizer);
+        // address[] memory _token0 = new address[](1);
+        // _token0[0] = getAddress(sourceChain, "LBTC");
+        // address[] memory _token1 = new address[](1);
+        // _token1[0] = getAddress(sourceChain, "cbBTC");
 
-        address[] memory gauges = new address[](1);
-        gauges[0] = address(0);
+        // address[] memory gauges = new address[](1);
+        // gauges[0] = address(0);
 
-        _addVelodromeV3Leafs(
-            leafs, _token0, _token1, getAddress(sourceChain, "aerodromeNonFungiblePositionManager"), gauges
-        );
+        // _addVelodromeV3Leafs(
+        //     leafs, _token0, _token1, getAddress(sourceChain, "aerodromeNonFungiblePositionManager"), gauges
+        // );
 
         // ========================== Lombard ========================
         // setAddress(true, sourceChain, "rawDataDecoderAndSanitizer", rawDataDecoderAndSanitizer);

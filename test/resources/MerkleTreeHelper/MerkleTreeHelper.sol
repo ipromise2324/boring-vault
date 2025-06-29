@@ -10,6 +10,7 @@ import {IComet} from "src/interfaces/IComet.sol";
 import {TellerWithMultiAssetSupport} from "src/base/Roles/TellerWithMultiAssetSupport.sol";
 import {BaseDecoderAndSanitizer} from "src/base/DecodersAndSanitizers/BaseDecoderAndSanitizer.sol";
 import "forge-std/Base.sol";
+import "forge-std/console2.sol";
 
 contract MerkleTreeHelper is CommonBase, ChainValues {
     using Address for address;
@@ -3517,6 +3518,11 @@ contract MerkleTreeHelper is CommonBase, ChainValues {
 
     function _addERC4626Leafs(ManageLeaf[] memory leafs, ERC4626 vault) internal {
         ERC20 asset = vault.asset();
+        console2.log("Vault address:", address(vault));
+        console2.log("Asset address:", address(asset));
+        console2.log("Asset symbol:", asset.symbol());
+        console2.log("decoder address:", getAddress(sourceChain, "rawDataDecoderAndSanitizer"));
+        console2.log("boring vault address:", getAddress(sourceChain, "boringVault"));
         // Approvals
         unchecked {
             leafIndex++;
@@ -3543,49 +3549,49 @@ contract MerkleTreeHelper is CommonBase, ChainValues {
             getAddress(sourceChain, "rawDataDecoderAndSanitizer")
         );
         leafs[leafIndex].argumentAddresses[0] = getAddress(sourceChain, "boringVault");
-        // Withdrawing
-        unchecked {
-            leafIndex++;
-        }
-        leafs[leafIndex] = ManageLeaf(
-            address(vault),
-            false,
-            "withdraw(uint256,address,address)",
-            new address[](2),
-            string.concat("Withdraw ", asset.symbol(), " from ", vault.symbol()),
-            getAddress(sourceChain, "rawDataDecoderAndSanitizer")
-        );
-        leafs[leafIndex].argumentAddresses[0] = getAddress(sourceChain, "boringVault");
-        leafs[leafIndex].argumentAddresses[1] = getAddress(sourceChain, "boringVault");
+        // // Withdrawing
+        // unchecked {
+        //     leafIndex++;
+        // }
+        // leafs[leafIndex] = ManageLeaf(
+        //     address(vault),
+        //     false,
+        //     "withdraw(uint256,address,address)",
+        //     new address[](2),
+        //     string.concat("Withdraw ", asset.symbol(), " from ", vault.symbol()),
+        //     getAddress(sourceChain, "rawDataDecoderAndSanitizer")
+        // );
+        // leafs[leafIndex].argumentAddresses[0] = getAddress(sourceChain, "boringVault");
+        // leafs[leafIndex].argumentAddresses[1] = getAddress(sourceChain, "boringVault");
 
-        // Minting
-        unchecked {
-            leafIndex++;
-        }
-        leafs[leafIndex] = ManageLeaf(
-            address(vault),
-            false,
-            "mint(uint256,address)",
-            new address[](1),
-            string.concat("Mint ", vault.symbol(), " using ", asset.symbol()),
-            getAddress(sourceChain, "rawDataDecoderAndSanitizer")
-        );
-        leafs[leafIndex].argumentAddresses[0] = getAddress(sourceChain, "boringVault");
+        // // Minting
+        // unchecked {
+        //     leafIndex++;
+        // }
+        // leafs[leafIndex] = ManageLeaf(
+        //     address(vault),
+        //     false,
+        //     "mint(uint256,address)",
+        //     new address[](1),
+        //     string.concat("Mint ", vault.symbol(), " using ", asset.symbol()),
+        //     getAddress(sourceChain, "rawDataDecoderAndSanitizer")
+        // );
+        // leafs[leafIndex].argumentAddresses[0] = getAddress(sourceChain, "boringVault");
 
-        // Redeeming
-        unchecked {
-            leafIndex++;
-        }
-        leafs[leafIndex] = ManageLeaf(
-            address(vault),
-            false,
-            "redeem(uint256,address,address)",
-            new address[](2),
-            string.concat("Redeem ", vault.symbol(), " for ", asset.symbol()),
-            getAddress(sourceChain, "rawDataDecoderAndSanitizer")
-        );
-        leafs[leafIndex].argumentAddresses[0] = getAddress(sourceChain, "boringVault");
-        leafs[leafIndex].argumentAddresses[1] = getAddress(sourceChain, "boringVault");
+        // // Redeeming
+        // unchecked {
+        //     leafIndex++;
+        // }
+        // leafs[leafIndex] = ManageLeaf(
+        //     address(vault),
+        //     false,
+        //     "redeem(uint256,address,address)",
+        //     new address[](2),
+        //     string.concat("Redeem ", vault.symbol(), " for ", asset.symbol()),
+        //     getAddress(sourceChain, "rawDataDecoderAndSanitizer")
+        // );
+        // leafs[leafIndex].argumentAddresses[0] = getAddress(sourceChain, "boringVault");
+        // leafs[leafIndex].argumentAddresses[1] = getAddress(sourceChain, "boringVault");
     }
 
     // ========================================= Vault Craft =========================================
