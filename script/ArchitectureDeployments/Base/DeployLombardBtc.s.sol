@@ -19,8 +19,8 @@ contract DeployLombardBtcScript is DeployArcticArchitecture, BaseAddresses {
     uint256 public privateKey;
 
     // Deployment parameters
-    string public boringVaultName = "LeBron BTC Vault";
-    string public boringVaultSymbol = "LBBTCv";
+    string public boringVaultName = "LeBron cbBTC Vault";
+    string public boringVaultSymbol = "LBcbBTCv";
     uint8 public boringVaultDecimals = 8;
     address public owner = 0x4A7bCebEc5b0A02Ad51F858741a76cFA17fDe637;
 
@@ -64,7 +64,7 @@ contract DeployLombardBtcScript is DeployArcticArchitecture, BaseAddresses {
 
         // Define Accountant Parameters.
         accountantParameters.payoutAddress = liquidPayoutAddress;
-        accountantParameters.base = WBTC;
+        accountantParameters.base = cbBTC;
         // Decimals are in terms of `base`.
         accountantParameters.startingExchangeRate = 1.00377152e8;
         //  4 decimals
@@ -85,7 +85,7 @@ contract DeployLombardBtcScript is DeployArcticArchitecture, BaseAddresses {
         // Setup withdraw assets.
         withdrawAssets.push(
             WithdrawAsset({
-                asset: WBTC,
+                asset: cbBTC,
                 withdrawDelay: 3 days,
                 completionWindow: 7 days,
                 withdrawFee: 0,

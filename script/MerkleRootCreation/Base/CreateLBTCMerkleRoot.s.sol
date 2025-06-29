@@ -15,10 +15,10 @@ import "forge-std/Script.sol";
 contract CreateLBTCMerkleRootScript is Script, MerkleTreeHelper {
     using FixedPointMathLib for uint256;
 
-    address public boringVault = 0x9bD6942a07fD45C4630Cf67dAD66256efEC4C70e;
-    address public managerAddress = 0x604E583c4fBDEC99944D158eCbC7020830274BCa;
-    address public accountantAddress = 0x171d0b828a992035B956fC2df379eeBB457B616F;
-    address public rawDataDecoderAndSanitizer = 0x5599a461C5764e7cFc99dB9677E172E61B5d48CB;
+    address public boringVault = 0x9b549C0fa55871BF9fE6b9edCF9dc649Fac75d0e;
+    address public managerAddress = 0x747e2d36704f59EB18a1b7a7d3884e29628DF28a;
+    address public accountantAddress = 0xA06F6C388c0bC49e9Af8d472E6d6821A44d6E3E8;
+    address public rawDataDecoderAndSanitizer = 0xFe10Cc403Adc068676dB957Ef3eC0f17c8090178;
     address public aerodromeDecoderAndSanitizer = 0xD657c2A871C467871b59d5992CD3bAb1634dd457;
 
     function setUp() external {}

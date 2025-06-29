@@ -1,13 +1,13 @@
 {
   "DepositAssets": {
-    "WBTC": {
+    "cbBTC": {
       "isPeggedToBase": true,
       "rateProvider": "0x0000000000000000000000000000000000000000"
     }
   },
   "Drones": "",
   "WithdrawAssets": {
-    "WBTC": {
+    "cbBTC": {
       "CompletionWindow": 604800,
       "MaxLoss": 100,
       "WithdrawDelay": 259200,
@@ -17,22 +17,22 @@
   "accountantConfiguration": {
     "AllowedExchangeRateChangeLower": 9950,
     "AllowedExchangeRateChangeUpper": 10050,
-    "Base": "WBTC",
-    "BaseAddress": "0x0555E30da8f98308EdB960aa94C0Db47230d2B9c",
+    "Base": "cbBTC",
+    "BaseAddress": "0xcbB7C0000aB88B473b1f5aFd9ef808440eed33Bf",
     "MinimumUpateDelayInSeconds": 21600,
     "PayoutAddress": "0xA9962a5BfBea6918E958DeE0647E99fD7863b95A",
     "PlatformFee": 150,
     "StartingExchangeRate": 100377152
   },
   "core": {
-    "AccountantWithRateProviders": "0x9863675A23bad8F613a495BFF0C9b2Dc2698e74e",
-    "BoringVault": "0x1cb28c15F0fC5A13Ec63D35480C302c76aF32FFb",
-    "DecoderAndSanitizer": "0xa6133F83dBeB8920c4e4013aaD9726fbc3b9fc1e",
-    "DelayedWithdraw": "0x56Cc984ca263C0363CA1be6d3Fa152Ce224251Dd",
-    "Lens": "0x32cD7cD98c0DD0A992e40Dc3aB17E59271CA9761",
-    "ManagerWithMerkleVerification": "0xa2BF2DB5aB0edbeFb74b0B9eCA7a0a72d3154770",
-    "RolesAuthority": "0xBb8FeE8C7623F29f5e7971b3061228e45681044a",
-    "TellerWithMultiAssetSupport": "0x026a81A5EcbfD10F2bBd349ee1AD22758a236d1D"
+    "AccountantWithRateProviders": "0xA06F6C388c0bC49e9Af8d472E6d6821A44d6E3E8",
+    "BoringVault": "0x9b549C0fa55871BF9fE6b9edCF9dc649Fac75d0e",
+    "DecoderAndSanitizer": "0xFe10Cc403Adc068676dB957Ef3eC0f17c8090178",
+    "DelayedWithdraw": "0x3C900497a7D364172A769bB54F36DaC010f5Dc24",
+    "Lens": "0xb26aA0Fd6ef3558A7538c9a6A898041784C92c63",
+    "ManagerWithMerkleVerification": "0x747e2d36704f59EB18a1b7a7d3884e29628DF28a",
+    "RolesAuthority": "0xeCF71cdCefB7C09A6f189330F6c6798EEC641F48",
+    "TellerWithMultiAssetSupport": "0x9fAF90689A215cb595e8Af204A0973d0fcad682B"
   },
   "depositConfiguration": {
     "AllowPublicDeposits": true,

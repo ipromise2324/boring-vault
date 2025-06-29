@@ -28,15 +28,15 @@ contract ContractNames {
     string public constant EtherFiLiquidUsdPancakeSwapDecoderAndSanitizerName =
         "EtherFi Liquid USD PancakeSwap Decoder and Sanitizer V0.0";
 
-    string public constant LombardBtcRolesAuthorityName = "Lebron BTC RolesAuthority Version 0.0";
-    string public constant LombardBtcName = "Lebron BTC V0.1";
-    string public constant LombardBtcManagerName = "Lebron BTC Manager With Merkle Verification V0.0";
-    string public constant LombardBtcAccountantName = "Lebron BTC Accountant With Rate Providers V0.1";
-    string public constant LombardBtcTellerName = "Lebron BTC Teller With Multi Asset Support V0.1";
-    string public constant LombardBtcDecoderAndSanitizerName = "Lebron BTC Decoder and Sanitizer V0.1";
+    string public constant LombardBtcRolesAuthorityName = "Lebron cbBTC RolesAuthority Version 0.0";
+    string public constant LombardBtcName = "Lebron cbBTC V0.1";
+    string public constant LombardBtcManagerName = "Lebron cbBTC Manager With Merkle Verification V0.0";
+    string public constant LombardBtcAccountantName = "Lebron cbBTC Accountant With Rate Providers V0.1";
+    string public constant LombardBtcTellerName = "Lebron cbBTC Teller With Multi Asset Support V0.1";
+    string public constant LombardBtcDecoderAndSanitizerName = "Lebron cbBTC Decoder and Sanitizer V0.1";
     string public constant LombardBtcAerodromeDecoderAndSanitizerName =
-        "Lebron BTC Aerodrome Decoder and Sanitizer V0.0";
-    string public constant LombardBtcDelayedWithdrawer = "Lebron BTC Delayed Withdrawer V0.0";
+        "Lebron cbBTC Aerodrome Decoder and Sanitizer V0.0";
+    string public constant LombardBtcDelayedWithdrawer = "Lebron cbBTC Delayed Withdrawer V0.0";
 
     string public constant EtherFiLiquidEthRolesAuthorityName = "EtherFi Liquid ETH RolesAuthority Version 0.0";
     string public constant EtherFiLiquidEthName = "EtherFi Liquid ETH V0.1";

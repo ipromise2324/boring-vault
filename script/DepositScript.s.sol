@@ -10,11 +10,11 @@ import {ERC20} from "@solmate/tokens/ERC20.sol";
 contract DepositScript is Script {
     function run() external {
         uint256 privateKey = vm.envUint("ETHERFI_LIQUID_DEPLOYER");
-        address boringVault = 0x9bD6942a07fD45C4630Cf67dAD66256efEC4C70e;
-        address tellerAddress = 0x8a6279D74dC894beD5fE83571691EBb7b2F7086A;
+        address boringVault = 0x9b549C0fa55871BF9fE6b9edCF9dc649Fac75d0e;
+        address tellerAddress = 0x9fAF90689A215cb595e8Af204A0973d0fcad682B;
         address cbbtc = 0xcbB7C0000aB88B473b1f5aFd9ef808440eed33Bf;
         // 0.000 007 96
-        uint256 amount = 1; // 0.00000 928 697 211 329 tBTC (18 decimals)
+        uint256 amount = 100; // 0.00000 928 697 211 329 tBTC (18 decimals)
         uint256 minShares = 0; // 不設下限
 
         // 查詢 assetData
