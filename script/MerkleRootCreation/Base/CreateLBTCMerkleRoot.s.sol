@@ -38,7 +38,7 @@ contract CreateLBTCMerkleRootScript is Script, MerkleTreeHelper {
         setAddress(false, base, "accountantAddress", accountantAddress);
         setAddress(false, base, "rawDataDecoderAndSanitizer", rawDataDecoderAndSanitizer);
 
-        ManageLeaf[] memory leafs = new ManageLeaf[](2);
+        ManageLeaf[] memory leafs = new ManageLeaf[](4);
 
         // // ========================== UniswapV3 ==========================
         // address[] memory token0 = new address[](3);
@@ -92,7 +92,7 @@ contract CreateLBTCMerkleRootScript is Script, MerkleTreeHelper {
         // setAddress(true, sourceChain, "rawDataDecoderAndSanitizer", rawDataDecoderAndSanitizer);
         // _addLombardBTCLeafs(leafs, getERC20(sourceChain, "cbBTC"), getERC20(sourceChain, "LBTC"));
 
-        string memory filePath = "./leafs/Base/LombardBTCStrategistLeafs.json";
+        string memory filePath = "./leafs/Base/WithLBcbbtc.json";
 
         bytes32[][] memory manageTree = _generateMerkleTree(leafs);
 

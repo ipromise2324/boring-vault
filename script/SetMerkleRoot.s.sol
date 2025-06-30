@@ -11,7 +11,7 @@ contract SetManageRootScript is Script {
         uint256 privateKey = vm.envUint("ETHERFI_LIQUID_DEPLOYER");
         address managerAddress = 0x747e2d36704f59EB18a1b7a7d3884e29628DF28a;
         address strategist = 0x4A7bCebEc5b0A02Ad51F858741a76cFA17fDe637;
-        bytes32 newRoot = 0x18f4cba2e9509c5bf0bf8c7b17a60d7dc92d5470620e0943ab3cbd1daf259467;
+        bytes32 newRoot = 0xa735cdd01a0b7c6abecd86ba5cd2b43b96332a01959c232050d02a45dde7baa2;
 
         vm.startBroadcast(privateKey);
         ManagerWithMerkleVerification(managerAddress).setManageRoot(strategist, newRoot);

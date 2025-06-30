@@ -3549,20 +3549,20 @@ contract MerkleTreeHelper is CommonBase, ChainValues {
             getAddress(sourceChain, "rawDataDecoderAndSanitizer")
         );
         leafs[leafIndex].argumentAddresses[0] = getAddress(sourceChain, "boringVault");
-        // // Withdrawing
-        // unchecked {
-        //     leafIndex++;
-        // }
-        // leafs[leafIndex] = ManageLeaf(
-        //     address(vault),
-        //     false,
-        //     "withdraw(uint256,address,address)",
-        //     new address[](2),
-        //     string.concat("Withdraw ", asset.symbol(), " from ", vault.symbol()),
-        //     getAddress(sourceChain, "rawDataDecoderAndSanitizer")
-        // );
-        // leafs[leafIndex].argumentAddresses[0] = getAddress(sourceChain, "boringVault");
-        // leafs[leafIndex].argumentAddresses[1] = getAddress(sourceChain, "boringVault");
+        // Withdrawing
+        unchecked {
+            leafIndex++;
+        }
+        leafs[leafIndex] = ManageLeaf(
+            address(vault),
+            false,
+            "withdraw(uint256,address,address)",
+            new address[](2),
+            string.concat("Withdraw ", asset.symbol(), " from ", vault.symbol()),
+            getAddress(sourceChain, "rawDataDecoderAndSanitizer")
+        );
+        leafs[leafIndex].argumentAddresses[0] = getAddress(sourceChain, "boringVault");
+        leafs[leafIndex].argumentAddresses[1] = getAddress(sourceChain, "boringVault");
 
         // // Minting
         // unchecked {
