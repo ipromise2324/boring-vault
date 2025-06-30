@@ -9,9 +9,9 @@ import "forge-std/console2.sol";
 
 /**
  * Execute cbBTC deposit to gtcbBTCc strategy using merkle verification
- * Usage: source .env && forge script script/Deposit.s.sol:ExecuteDepositScript --rpc-url base --broadcast
+ * Usage: source .env && forge script script/DepositToMorpho.s.sol:DepositToMorpho --rpc-url base --broadcast
  */
-contract ExecuteDepositScript is Script {
+contract DepositToMorpho is Script {
     using FixedPointMathLib for uint256;
 
     // Base network addresses from deployment
@@ -26,8 +26,8 @@ contract ExecuteDepositScript is Script {
     // Merkle root from WithLBcbbtc.json
     bytes32 public merkleRoot = 0xa735cdd01a0b7c6abecd86ba5cd2b43b96332a01959c232050d02a45dde7baa2;
     
-    // Deposit amount (10 cbBTC with 8 decimals)
-    uint256 public constant DEPOSIT_AMOUNT = 25;
+    // Dynamic deposit amount will be calculated based on BoringVault balance
+    // uint256 public constant DEPOSIT_AMOUNT = 25;
 
     // Store private key as state variable
     uint256 private privateKey;
@@ -47,6 +47,10 @@ contract ExecuteDepositScript is Script {
     function run() external {
         // Use the specific private key for broadcasting
         vm.startBroadcast(privateKey);
+        
+        // Check current state
+        // checkCurrentState();
+        
         executeDepositStrategy();
         vm.stopBroadcast();
     }
@@ -55,26 +59,18 @@ contract ExecuteDepositScript is Script {
         ManagerWithMerkleVerification manager = ManagerWithMerkleVerification(managerAddress);
         
         console.log("=== Executing cbBTC Deposit to gtcbBTCc Strategy ===");
-        // console.log("Boring Vault:", boringVault);
-        // console.log("Manager:", managerAddress);
-        // console.log("cbBTC:", cbbtc);
-        // console.log("gtcbBTCc:", gtcbBTCc);
 
-        // // Check current balances
-        // uint256 cbbtcBalance = ERC20(cbbtc).balanceOf(boringVault);
-        // uint256 gtcbBTCcBalance = ERC20(gtcbBTCc).balanceOf(boringVault);
-        // console.log("BoringVault cbBTC Balance:");
-        // console2.log(cbbtcBalance);
-        // console.log("BoringVault gtcbBTCc Balance:");
-        // console2.log(gtcbBTCcBalance);
-
-        // // Check allowance
-        // uint256 allowance = ERC20(cbbtc).allowance(boringVault, gtcbBTCc);
-        // console.log("cbBTC Allowance for gtcbBTCc:");
-        // console2.log(allowance);
-
-        // require(allowance >= DEPOSIT_AMOUNT, "Insufficient allowance for deposit");
-        // require(cbbtcBalance >= DEPOSIT_AMOUNT, "Insufficient cbBTC balance for deposit");
+        // Get BoringVault's current cbBTC balance
+        uint256 cbbtcBalance = ERC20(cbbtc).balanceOf(boringVault);
+        console.log("BoringVault cbBTC Balance:");
+        console2.log(cbbtcBalance);
+        
+        // Calculate deposit amount (1/10 of balance)
+        uint256 depositAmount = cbbtcBalance / 10;
+        console.log("Deposit Amount (1/10 of balance):");
+        console2.log(depositAmount);
+        
+        require(depositAmount > 0, "No balance to deposit");
 
         // Prepare transaction arrays
         address[] memory targets = new address[](1);
@@ -82,7 +78,7 @@ contract ExecuteDepositScript is Script {
 
         bytes[] memory targetData = new bytes[](1);
         // deposit(uint256,address) - deposit amount to boringVault
-        targetData[0] = abi.encodeWithSelector(0x6e553f65, DEPOSIT_AMOUNT, boringVault);
+        targetData[0] = abi.encodeWithSelector(0x6e553f65, depositAmount, boringVault);
 
         uint256[] memory values = new uint256[](1);
         values[0] = 0;
@@ -95,25 +91,15 @@ contract ExecuteDepositScript is Script {
         manageProofs[0] = getDepositProof();
 
         console.log("Leaf Digest: 0x144e6401d1e0f0bd4f44e0767ef9eb849ade4d19253a2c52fa4cd69f4709e18b");
-        console.log("Deposit Amount: 10 cbBTC");
 
         // Execute the strategy
         try manager.manageVaultWithMerkleVerification(manageProofs, decodersAndSanitizers, targets, targetData, values) {
             console.log("SUCCESS: Deposit strategy executed!");
             
-            // uint256 newCbbtcBalance = ERC20(cbbtc).balanceOf(boringVault);
-            // uint256 newGtcbBTCcBalance = ERC20(gtcbBTCc).balanceOf(boringVault);
-            // console.log("New BoringVault cbBTC Balance:");
-            // console2.log(newCbbtcBalance);
-            // console.log("New BoringVault gtcbBTCc Balance:");
-            // console2.log(newGtcbBTCcBalance);
+            uint256 newGtcbBTCcBalance = ERC20(gtcbBTCc).balanceOf(boringVault);
+            console.log("New gtcbBTCc LP balance:");
+            console2.log(newGtcbBTCcBalance);
             
-            // if (newGtcbBTCcBalance > gtcbBTCcBalance) {
-            //     console.log("SUCCESS: Deposit completed successfully!");
-            //     uint256 received = newGtcbBTCcBalance - gtcbBTCcBalance;
-            //     console.log("gtcbBTCc received:");
-            //     console2.log(received);
-            // }
         } catch Error(string memory reason) {
             console.log("ERROR: Execution failed -", reason);
         } catch (bytes memory lowLevelData) {
@@ -140,15 +126,15 @@ contract ExecuteDepositScript is Script {
     }
 
     // View function to check current state without broadcasting
-    function checkCurrentState() external view {
+    function checkCurrentState() public view {
         console.log("=== Current State Check ===");
-        console.log("cbBTC Address:", cbbtc);
-        console.log("gtcbBTCc Address:", gtcbBTCc);
-        console.log("Boring Vault:", boringVault);
         
         uint256 cbbtcBalance = ERC20(cbbtc).balanceOf(boringVault);
         uint256 gtcbBTCcBalance = ERC20(gtcbBTCc).balanceOf(boringVault);
         uint256 allowance = ERC20(cbbtc).allowance(boringVault, gtcbBTCc);
+        
+        // Calculate deposit amount (1/10 of balance)
+        uint256 depositAmount = cbbtcBalance / 10;
         
         console.log("BoringVault cbBTC Balance:");
         console2.log(cbbtcBalance);
@@ -156,17 +142,13 @@ contract ExecuteDepositScript is Script {
         console2.log(gtcbBTCcBalance);
         console.log("cbBTC Allowance for gtcbBTCc:");
         console2.log(allowance);
+        console.log("Potential Deposit Amount (1/10 of balance):");
+        console2.log(depositAmount);
         
-        if (allowance >= DEPOSIT_AMOUNT) {
-            console.log("STATUS: Has sufficient allowance for deposit");
+        if (allowance >= depositAmount && depositAmount > 0) {
+            console.log("STATUS: Ready for deposit");
         } else {
-            console.log("STATUS: Insufficient allowance - need to approve first");
-        }
-        
-        if (cbbtcBalance >= DEPOSIT_AMOUNT) {
-            console.log("STATUS: Has sufficient cbBTC balance for deposit");
-        } else {
-            console.log("STATUS: Insufficient cbBTC balance for deposit");
+            console.log("STATUS: Not ready - check allowance or balance");
         }
     }
 } 
