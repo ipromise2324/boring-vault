@@ -8,7 +8,7 @@ import "forge-std/Script.sol";
 /**
  * @title Unpause Accountant
  * @notice Checks the pause status of the accountant and unpause it if needed
- * @dev Run with: forge script script/UnpauseAccountant.s.sol:UnpauseAccountant --rpc-url $BASE_RPC_URL base --broadcast
+ * @dev Run with: forge script script/UnpauseAccountant.s.sol:UnpauseAccountant --rpc-url base --broadcast
  */
 contract UnpauseAccountant is Script {
     // Base network addresses
