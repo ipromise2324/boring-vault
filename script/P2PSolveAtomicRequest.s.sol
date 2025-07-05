@@ -10,8 +10,8 @@ import {FixedPointMathLib} from "@solmate/utils/FixedPointMathLib.sol";
 import {Script, console} from "forge-std/Script.sol";
 import "forge-std/console2.sol";
 
-// source .env && forge script script/SolveAtomicRequest.s.sol:SolveAtomicRequest --rpc-url base --broadcast
-contract SolveAtomicRequest is Script {
+// source .env && forge script script/P2PSolveAtomicRequest.s.sol:P2PSolveAtomicRequest --rpc-url base --broadcast
+contract P2PSolveAtomicRequest is Script {
     using FixedPointMathLib for uint256;
 
     // Base network addresses
@@ -22,7 +22,6 @@ contract SolveAtomicRequest is Script {
     
     // Token addresses (Base network)
     address public constant cbBTC = 0xcbB7C0000aB88B473b1f5aFd9ef808440eed33Bf;
-    address public constant WETH = 0x4200000000000000000000000000000000000006;
     
     // Store private key
     uint256 internal privateKey;
