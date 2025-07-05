@@ -5,7 +5,7 @@ import "forge-std/Script.sol";
 import "forge-std/console.sol";
 import {ManagerWithMerkleVerification} from "src/base/Roles/ManagerWithMerkleVerification.sol";
 
-// source .env && forge script script/SetMerkleRoot.s.sol:SetManageRootScript --rpc-url base --broadcast
+// source .env && forge script script/strategy/SetMerkleRoot.s.sol:SetManageRootScript --rpc-url base --broadcast
 contract SetManageRootScript is Script {
     function run() external {
         uint256 privateKey = vm.envUint("ETHERFI_LIQUID_DEPLOYER");

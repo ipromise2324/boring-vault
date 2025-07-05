@@ -7,7 +7,7 @@ import "forge-std/console2.sol";
 import {TellerWithMultiAssetSupport} from "src/base/Roles/TellerWithMultiAssetSupport.sol";
 import {ERC20} from "@solmate/tokens/ERC20.sol";
 
-// source .env && forge script script/DepositToBoringVault.s.sol:DepositToBoringVault --rpc-url base --broadcast
+// source .env && forge script script/user/DepositToBoringVault.s.sol:DepositToBoringVault --rpc-url base --broadcast
 contract DepositToBoringVault is Script {
     function run() external {
         uint256 privateKey = vm.envUint("ETHERFI_LIQUID_DEPLOYER");

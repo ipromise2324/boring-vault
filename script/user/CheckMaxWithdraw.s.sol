@@ -15,7 +15,7 @@ interface IERC4626 {
 
 /**
  * Check maximum withdrawal amount from gtcbBTCc for BoringVault
- * Usage: source .env && forge script script/CheckMaxWithdraw.s.sol:CheckMaxWithdraw --rpc-url base
+ * Usage: source .env && forge script script/user/CheckMaxWithdraw.s.sol:CheckMaxWithdraw --rpc-url base
  */
 contract CheckMaxWithdraw is Script {
     // Base network addresses

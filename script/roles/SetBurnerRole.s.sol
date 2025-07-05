@@ -6,7 +6,7 @@ import {RolesAuthority} from "@solmate/auth/authorities/RolesAuthority.sol";
 import {BoringVault} from "src/base/BoringVault.sol";
 import {TellerWithMultiAssetSupport} from "src/base/Roles/TellerWithMultiAssetSupport.sol";
 
-// source .env && forge script script/SetBurnerRole.s.sol:SetBurnerRole --rpc-url base --broadcast
+// source .env && forge script script/roles/SetBurnerRole.s.sol:SetBurnerRole --rpc-url base --broadcast
 contract SetBurnerRole is Script {
     
     // Base network addresses

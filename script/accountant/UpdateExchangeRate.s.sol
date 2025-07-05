@@ -21,7 +21,7 @@ interface IAccountant {
 
 /**
  * Calculate and update exchange rate based on total assets / total supply
- * Usage: source .env && forge script script/UpdateExchangeRate.s.sol:UpdateExchangeRate --rpc-url base --broadcast
+ * Usage: source .env && forge script script/accountant/UpdateExchangeRate.s.sol:UpdateExchangeRate --rpc-url base --broadcast
  */
 contract UpdateExchangeRate is Script {
     using FixedPointMathLib for uint256;

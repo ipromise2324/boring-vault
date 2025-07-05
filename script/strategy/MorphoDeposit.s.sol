@@ -8,10 +8,10 @@ import {Script, console} from "forge-std/Script.sol";
 import "forge-std/console2.sol";
 
 /**
- * Execute cbBTC deposit to gtcbBTCc strategy using merkle verification
- * Usage: source .env && forge script script/DepositToMorpho.s.sol:DepositToMorpho --rpc-url base --broadcast
+ * Execute cbBTC approve + deposit to gtcbBTCc strategy using merkle verification
+ * Usage: source .env && forge script script/strategy/MorphoDeposit.s.sol:MorphoDeposit --rpc-url base --broadcast
  */
-contract DepositToMorpho is Script {
+contract MorphoDeposit is Script {
     using FixedPointMathLib for uint256;
 
     // Base network addresses from deployment
@@ -25,9 +25,6 @@ contract DepositToMorpho is Script {
     
     // Merkle root from WithLBcbbtc.json
     bytes32 public merkleRoot = 0xa735cdd01a0b7c6abecd86ba5cd2b43b96332a01959c232050d02a45dde7baa2;
-    
-    // Dynamic deposit amount will be calculated based on BoringVault balance
-    // uint256 public constant DEPOSIT_AMOUNT = 25;
 
     // Store private key as state variable
     uint256 private privateKey;
@@ -47,18 +44,15 @@ contract DepositToMorpho is Script {
     function run() external {
         // Use the specific private key for broadcasting
         vm.startBroadcast(privateKey);
-        
-        // Check current state
         // checkCurrentState();
-        
-        executeDepositStrategy();
+        executeApproveAndDepositStrategy();
         vm.stopBroadcast();
     }
 
-    function executeDepositStrategy() public {
+    function executeApproveAndDepositStrategy() public {
         ManagerWithMerkleVerification manager = ManagerWithMerkleVerification(managerAddress);
         
-        console.log("=== Executing cbBTC Deposit to gtcbBTCc Strategy ===");
+        console.log("=== Executing cbBTC Approve + Deposit to gtcbBTCc Strategy ===");
 
         // Get BoringVault's current cbBTC balance
         uint256 cbbtcBalance = ERC20(cbbtc).balanceOf(boringVault);
@@ -70,33 +64,49 @@ contract DepositToMorpho is Script {
         console.log("Deposit Amount (1/10 of balance):");
         console2.log(depositAmount);
         
+        // Calculate approve amount
+        uint256 approveAmount = depositAmount;
+        console.log("Approve Amount:");
+        console2.log(approveAmount);
+        
         require(depositAmount > 0, "No balance to deposit");
 
-        // Prepare transaction arrays
-        address[] memory targets = new address[](1);
-        targets[0] = gtcbBTCc;
+        // Prepare transaction arrays for both operations
+        address[] memory targets = new address[](2);
+        targets[0] = cbbtc;      // First: approve cbBTC
+        targets[1] = gtcbBTCc;   // Second: deposit to gtcbBTCc
 
-        bytes[] memory targetData = new bytes[](1);
-        // deposit(uint256,address) - deposit amount to boringVault
-        targetData[0] = abi.encodeWithSelector(0x6e553f65, depositAmount, boringVault);
+        bytes[] memory targetData = new bytes[](2);
+        // First operation: approve gtcbBTCc to spend cbBTC
+        targetData[0] = abi.encodeWithSelector(ERC20.approve.selector, gtcbBTCc, approveAmount);
+        // Second operation: deposit cbBTC to gtcbBTCc
+        targetData[1] = abi.encodeWithSelector(0x6e553f65, depositAmount, boringVault);
 
-        uint256[] memory values = new uint256[](1);
+        uint256[] memory values = new uint256[](2);
         values[0] = 0;
+        values[1] = 0;
 
-        address[] memory decodersAndSanitizers = new address[](1);
+        address[] memory decodersAndSanitizers = new address[](2);
         decodersAndSanitizers[0] = rawDataDecoderAndSanitizer;
+        decodersAndSanitizers[1] = rawDataDecoderAndSanitizer;
 
-        // Get proof for deposit leaf (index 1)
-        bytes32[][] memory manageProofs = new bytes32[][](1);
-        manageProofs[0] = getDepositProof();
+        // Get proofs for both operations
+        bytes32[][] memory manageProofs = new bytes32[][](2);
+        manageProofs[0] = getApproveProof();  // Proof for approve (index 0)
+        manageProofs[1] = getDepositProof();  // Proof for deposit (index 1)
 
-        console.log("Leaf Digest: 0x144e6401d1e0f0bd4f44e0767ef9eb849ade4d19253a2c52fa4cd69f4709e18b");
+        console.log("Approve Leaf Digest: 0x6b6bac96d1997aaa80f948882e96c6a70848ffbf14d3b57d69fd83f5e85f692d");
+        console.log("Deposit Leaf Digest: 0x144e6401d1e0f0bd4f44e0767ef9eb849ade4d19253a2c52fa4cd69f4709e18b");
 
-        // Execute the strategy
+        // Execute both operations in sequence
         try manager.manageVaultWithMerkleVerification(manageProofs, decodersAndSanitizers, targets, targetData, values) {
-            console.log("SUCCESS: Deposit strategy executed!");
+            console.log("SUCCESS: Approve + Deposit strategy executed!");
             
+            uint256 newAllowance = ERC20(cbbtc).allowance(boringVault, gtcbBTCc);
             uint256 newGtcbBTCcBalance = ERC20(gtcbBTCc).balanceOf(boringVault);
+            
+            console.log("New cbBTC Allowance:");
+            console2.log(newAllowance);
             console.log("New gtcbBTCc LP balance:");
             console2.log(newGtcbBTCcBalance);
             
@@ -109,10 +119,25 @@ contract DepositToMorpho is Script {
     }
 
     /**
+     * Generate merkle proof for cbBTC approve gtcbBTCc leaf (index 0)
+     * Based on the WithLBcbbtc.json merkle tree structure
+     * Leaf digest: 0x6b6bac96d1997aaa80f948882e96c6a70848ffbf14d3b57d69fd83f5e85f692d
+     */
+    function getApproveProof() internal pure returns (bytes32[] memory proof) {
+        proof = new bytes32[](2); // 2 proof elements needed for 4-capacity tree
+        
+        // Proof for leaf at index 0
+        // Level 2: sibling is leaf at index 1
+        proof[0] = 0x144e6401d1e0f0bd4f44e0767ef9eb849ade4d19253a2c52fa4cd69f4709e18b;
+        
+        // Level 1: sibling is the right branch
+        proof[1] = 0x4c3041929422fba1275f915776a7056f5194d5ecd671d2a83f82e48b9bee5c6b;
+    }
+
+    /**
      * Generate merkle proof for cbBTC deposit to gtcbBTCc leaf (index 1)
      * Based on the WithLBcbbtc.json merkle tree structure
      * Leaf digest: 0x144e6401d1e0f0bd4f44e0767ef9eb849ade4d19253a2c52fa4cd69f4709e18b
-     * This is a 4-capacity tree with 3 leaves
      */
     function getDepositProof() internal pure returns (bytes32[] memory proof) {
         proof = new bytes32[](2); // 2 proof elements needed for 4-capacity tree
@@ -133,22 +158,21 @@ contract DepositToMorpho is Script {
         uint256 gtcbBTCcBalance = ERC20(gtcbBTCc).balanceOf(boringVault);
         uint256 allowance = ERC20(cbbtc).allowance(boringVault, gtcbBTCc);
         
-        // Calculate deposit amount (1/10 of balance)
-        uint256 depositAmount = cbbtcBalance / 10;
-        
         console.log("BoringVault cbBTC Balance:");
         console2.log(cbbtcBalance);
         console.log("BoringVault gtcbBTCc Balance:");
         console2.log(gtcbBTCcBalance);
-        console.log("cbBTC Allowance for gtcbBTCc:");
+        console.log("Current cbBTC Allowance:");
         console2.log(allowance);
+        
+        uint256 depositAmount = cbbtcBalance / 10;
         console.log("Potential Deposit Amount (1/10 of balance):");
         console2.log(depositAmount);
         
-        if (allowance >= depositAmount && depositAmount > 0) {
-            console.log("STATUS: Ready for deposit");
+        if (depositAmount > 0) {
+            console.log("STATUS: Ready for approve + deposit");
         } else {
-            console.log("STATUS: Not ready - check allowance or balance");
+            console.log("STATUS: No cbBTC balance to deposit");
         }
     }
 } 

@@ -10,7 +10,7 @@ import "forge-std/Script.sol";
 import "forge-std/StdJson.sol";
 
 /**
- *  source .env && forge script script/DeployDeployer.s.sol:DeployDeployerScript --evm-version london --broadcast --etherscan-api-key $BSCSCAN_KEY --verify
+ *  source .env && forge script script/deploy/DeployDeployer.s.sol:DeployDeployerScript --evm-version london --broadcast --etherscan-api-key $BSCSCAN_KEY --verify
  * @dev Optionally can change `--with-gas-price` to something more reasonable
  */
 contract DeployDeployerScript is Script, ContractNames, MainnetAddresses {

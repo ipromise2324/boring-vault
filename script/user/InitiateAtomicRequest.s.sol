@@ -11,7 +11,7 @@ import {Script, console} from "forge-std/Script.sol";
 import "forge-std/console2.sol";
 
 
-// source .env && forge script script/InitiateAtomicRequest.s.sol:InitiateAtomicRequest --rpc-url base --broadcast
+// source .env && forge script script/user/InitiateAtomicRequest.s.sol:InitiateAtomicRequest --rpc-url base --broadcast
 contract InitiateAtomicRequest is Script {
     using FixedPointMathLib for uint256;
 

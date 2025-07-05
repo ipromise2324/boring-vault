@@ -6,7 +6,7 @@ import {TellerWithMultiAssetSupport} from "src/base/Roles/TellerWithMultiAssetSu
 import {RolesAuthority} from "@solmate/auth/authorities/RolesAuthority.sol";
 import {ERC20} from "@solmate/tokens/ERC20.sol";
 
-// source .env && forge script script/EnableDeposit.s.sol:EnableDeposit --rpc-url base --broadcast
+// source .env && forge script script/others/EnableDeposit.s.sol:EnableDeposit --rpc-url base --broadcast
 contract EnableDeposit is Script {
     function run() external {
         uint256 privateKey = vm.envUint("ETHERFI_LIQUID_DEPLOYER");

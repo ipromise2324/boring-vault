@@ -5,7 +5,7 @@ import {Script, console} from "forge-std/Script.sol";
 import {TellerWithMultiAssetSupport} from "src/base/Roles/TellerWithMultiAssetSupport.sol";
 import {ERC20} from "@solmate/tokens/ERC20.sol";
 
-// source .env && forge script script/UpdateAssetData.s.sol:UpdateAssetData --rpc-url base --broadcast
+// source .env && forge script script/others/UpdateAssetData.s.sol:UpdateAssetData --rpc-url base --broadcast
 contract UpdateAssetData is Script {
     
     // Base network addresses

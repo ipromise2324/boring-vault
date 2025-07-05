@@ -9,9 +9,9 @@ import "forge-std/console2.sol";
 
 /**
  * Execute cbBTC withdraw from gtcbBTCc strategy using merkle verification
- * Usage: source .env && forge script script/Withdraw.s.sol:ExecuteWithdrawScript --rpc-url base --broadcast
+ * Usage: source .env && forge script script/strategy/MorphoWithdraw.s.sol:MorphoWithdraw --rpc-url base --broadcast
  */
-contract ExecuteWithdrawScript is Script {
+contract MorphoWithdraw is Script {
     using FixedPointMathLib for uint256;
 
     // Base network addresses from deployment

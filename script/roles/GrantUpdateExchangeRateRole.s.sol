@@ -7,7 +7,7 @@ import "forge-std/Script.sol";
 /**
  * @title Grant Update Exchange Rate Role
  * @notice Grants UPDATE_EXCHANGE_RATE_ROLE to the deployer address
- * @dev Run with: forge script script/GrantUpdateExchangeRateRole.s.sol:GrantUpdateExchangeRateRole --rpc-url $BASE_RPC_URL base --broadcast
+ * @dev Run with: forge script script/roles/GrantUpdateExchangeRateRole.s.sol:GrantUpdateExchangeRateRole --rpc-url $BASE_RPC_URL base --broadcast
  */
 contract GrantUpdateExchangeRateRole is Script {
     // Base network addresses

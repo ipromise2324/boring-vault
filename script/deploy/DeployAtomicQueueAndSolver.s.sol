@@ -13,7 +13,7 @@ import "forge-std/Script.sol";
 /**
  * @title Deploy Atomic Queue And Solver
  * @notice Deploys AtomicQueue and AtomicSolverV4 contracts with proper permissions for redeemSolve functionality
- * @dev Run with: forge script script/DeployAtomicQueueAndSolver.s.sol:DeployAtomicQueueAndSolver --rpc-url base --broadcast
+ * @dev Run with: forge script script/deploy/DeployAtomicQueueAndSolver.s.sol:DeployAtomicQueueAndSolver --rpc-url base --broadcast
  */
 contract DeployAtomicQueueAndSolver is Script, ContractNames {
     // Base network addresses - using existing deployed contracts

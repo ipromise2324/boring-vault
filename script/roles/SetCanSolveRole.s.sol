@@ -4,7 +4,7 @@ pragma solidity 0.8.21;
 import {Script, console} from "forge-std/Script.sol";
 import {RolesAuthority} from "@solmate/auth/authorities/RolesAuthority.sol";
 
-// forge script script/SetCanSolveRole.s.sol:SetCanSolveRole --rpc-url base --broadcast
+// forge script script/roles/SetCanSolveRole.s.sol:SetCanSolveRole --rpc-url base --broadcast
 contract SetCanSolveRole is Script {
     
     // Base network addresses
